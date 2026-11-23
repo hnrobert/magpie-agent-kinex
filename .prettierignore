@@ -1,0 +1,3 @@
+# the ESLint config keeps its formatting as the team skill asset wrote it
+eslint.config.ts
+pnpm-lock.yaml

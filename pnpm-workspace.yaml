@@ -1,0 +1,25 @@
+# pnpm's workspace manifest. This is not a monorepo: the file is here so that this
+# repository is its own workspace root. Without it pnpm keeps using the
+# pnpm-workspace.yaml in the home directory, and writes the lockfile and
+# node_modules under the home directory.
+# Since pnpm 11, settings such as dependency overrides live here too: the pnpm
+# field of package.json is no longer read.
+
+# The tests read back everything the plugin writes with the Pi that Kinex 1.1.0
+# bundles, so the whole tree is pinned to the versions of its lockfile
+# (package-lock.json). pi-coding-agent 1.2.0 asks ^1.2.0 of its sibling packages,
+# and without the pin a newer Pi is installed, one Kinex has never run on.
+overrides:
+  "@earendil-works/pi-ai": 1.2.0
+  "@earendil-works/pi-agent-core": 1.2.0
+  "@earendil-works/pi-codemode": 1.2.0
+  "@earendil-works/pi-mcp": 1.2.0
+  "@earendil-works/pi-telemetry": 1.2.0
+  "@earendil-works/pi-tui": 1.2.0
+
+# Two packages among Pi's dependencies carry install scripts. Only the tests use
+# them, and reading configuration needs nothing from their scripts, so they are
+# not allowed.
+allowBuilds:
+  "@google/genai": false
+  protobufjs: false

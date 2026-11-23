@@ -22,6 +22,11 @@ import { providerKeys } from "./lib/provider.js";
 export const agent = {
   id: "kinex",
   name: "Kinex",
+  // the picture of Kinex's row on the Agents page: the logo of this
+  // repository, at the address magpie.icon in package.json gives for the
+  // Plugins page. magpie fetches it once and keeps it; left out, the row
+  // wears its generic glyph. A module here cannot read package.json
+  icon: "https://raw.githubusercontent.com/hnrobert/magpie-agent-kinex/main/assets/kinex-logo.svg",
   // the command Kinex is started by, and the folder it keeps: whether Kinex
   // is here
   bin: "kinex",

@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { Buffer } from "node:buffer";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
@@ -68,17 +67,26 @@ test("package.json names the module, and nothing for magpie's Bun host to load",
   assert.ok(pkg.files.includes("lib"));
 });
 
-test("the icon is a picture magpie decodes: a PNG data URI under its limit", () => {
+test("the picture is the logo of this repository, by its address", async () => {
+  // magpie takes a picture only as an https address or as data embedded in
+  // package.json, never as a file of the package: a card is drawn before
+  // anything of the plugin is on disk. It fetches the picture once and keeps
+  // it. magpie.icon is for the card in Discover and the row in Installed;
+  // agent.icon, without which the row wears magpie's generic glyph, is for
+  // Kinex's row on the Agents page
   const { icon } = pkg.magpie;
-  assert.match(icon, /^data:image\/png;base64,[A-Za-z0-9+/]+={0,2}$/);
-  assert.ok(Buffer.byteLength(icon) <= 1 << 20);
-  const png = Buffer.from(
-    icon.slice("data:image/png;base64,".length),
-    "base64",
-  );
-  assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
-  assert.equal(png.readUInt32BE(16), 192);
-  assert.equal(png.readUInt32BE(20), 192);
+  assert.equal(icon, agent.icon);
+  const raw = "https://raw.githubusercontent.com/";
+  assert.ok(icon.startsWith(raw));
+  const [owner, name, branch, ...file] = icon.slice(raw.length).split("/");
+  const repo = pkg.repository.url.replace(/^git\+/, "").replace(/\.git$/, "");
+  assert.equal(`${owner}/${name}`, repo.replace("https://github.com/", ""));
+  assert.equal(branch, "main");
+  // the picture is where its address says, and one magpie can show
+  const svg = await readFile(path.join(ROOT, ...file));
+  assert.equal(file.join("/"), "assets/kinex-logo.svg");
+  assert.equal(svg.subarray(0, 4).toString(), "<svg");
+  assert.ok(svg.length <= 1 << 20);
 });
 
 test("the module imports only files beside it, as magpie links an agent plugin", async () => {

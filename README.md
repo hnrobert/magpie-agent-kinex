@@ -10,11 +10,13 @@ Kinex is [Stacx Lab](https://github.com/stacx-lab)'s robotics coding agent. It i
 
 ## Install
 
+In magpie, open **Plugins › Discover** and search for **Kinex**. Or from the command line:
+
 ```bash
-magpie plugin add /path/to/magpie-agent-kinex
+magpie plugin add github:hnrobert/magpie-agent-kinex
 ```
 
-Or, in magpie, open **Plugins** and enter the folder's path in the add-plugin field. A folder plugin is loaded in place: after changing its code, switch it off and on again on the Plugins page. The plugin itself needs no Node; it runs inside magpie's own process.
+The plugin needs no Node and has no dependencies: it runs inside magpie's own process.
 
 Once Kinex has run at least once (or `kinex` is on the `PATH`), `magpie ls` lists a **Kinex** row. Before that, `magpie kinex` still works on it directly.
 
@@ -95,6 +97,7 @@ base64 -i /tmp/kinex.png | tr -d '\n'
 Done on macOS with magpie 0.1.4535:
 
 - The real magpie command line loading this plugin: adding it, picking a model, disconnecting. After disconnecting, both files are byte-for-byte what they were before. When the provider of the picked model is removed, magpie moves Kinex to an equivalent model by itself.
+- The same through a git install, which is what installing from the Discover page does: the plugin added from a git repository of this code, a local one on the same route as `github:owner/repo`; Kinex's row loaded, a model was picked, and both files were put back byte-for-byte when the plugin was removed.
 - Pi 1.2.0 reading back the real files magpie wrote: no error, and a new session starts on the picked model.
 - An end-to-end request: the Pi 1.2.0 client sending a request the way Kinex does, through a real magpie gateway (started separately in the throwaway environment) to a fake vendor. Chat Completions, Responses and Messages all went through, the reasoning parameters mapped as expected, and magpie's usage ledger recorded it under Kinex with the session.
 
@@ -103,6 +106,7 @@ Not verified:
 - **The real Kinex was never run.** The claims above about how Kinex reads these files rest on its source and on the Pi it bundles, not on running Kinex.
 - magpie's graphical interface; only the command line was verified.
 - Windows and Linux, and a real robot workspace.
+- An install from npm, and from GitHub itself: the package is not on npm yet, and the repository was cloned locally. The npm tarball was only packed and its contents listed.
 
 ## Acknowledgements and license
 

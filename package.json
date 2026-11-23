@@ -4,6 +4,14 @@
   "description": "Bring Kinex into magpie's Agents list: pick a model for Kinex in magpie and the plugin writes it into Kinex's models.json and settings.json",
   "type": "module",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/hnrobert/magpie-agent-kinex#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hnrobert/magpie-agent-kinex.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hnrobert/magpie-agent-kinex/issues"
+  },
   "packageManager": "pnpm@11.13.0",
   "files": [
     "kinex.agent.js",
